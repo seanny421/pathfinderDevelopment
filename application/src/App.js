@@ -1,23 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
+import Grid from "./components/grid/Grid.jsx";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-            this is going to be a pathfinder application
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Grid/>
+        {/* <a */}
+        {/*   className="App-link" */}
+        {/*   href="https://reactjs.org" */}
+        {/*   target="_blank" */}
+        {/*   rel="noopener noreferrer" */}
+        {/* > */}
+        {/*   Learn React */}
+        {/* </a> */}
     </div>
   );
 }
