@@ -1,5 +1,6 @@
 import React ,{useEffect, useState} from "react";
 import Node from "../node/Node.jsx";
+import { Dijkstra } from "../algorithms/Dijkstra.js";
 
 export default function Grid(){
     const [grid, setGrid] = useState([]);
@@ -27,9 +28,29 @@ export default function Grid(){
             row,
             isStart: row === 10 && col === 5,
             isFinish: row === 10 && col === 45,
-            isWall: false
+            isWall: false,
+            isVisited: false,
+            previousNode: null,
+            initDistance: Infinity,
         };
 
+    }
+
+    function handleVisited(row, col){
+        const newGrid = newGridToggleVisited(grid, row, col);
+        setGrid(newGrid);
+    }
+
+    function newGridToggleVisited(grid, row, col){
+        const newGrid = grid.slice();
+        const node = newGrid[row][col];
+        const newNode = {
+            ...node,
+            isVisited: !node.isVisited,
+        };
+        newGrid[row][col] = newNode;
+        return newGrid;
+        
     }
 
     function handleMouseDown(row, col){
@@ -61,13 +82,29 @@ export default function Grid(){
     }
 
     function refreshGrid(){
+        const newGrid = getGrid();
         setGrid(getGrid);
+    }
+
+
+    function visualizeDijkstra(){
+        const startNode = grid[10][5];
+        const finishNode = grid[10][45];
+        const visitedNodesInOrder = Dijkstra(grid, startNode, finishNode);
+
+        for(let i = 0; i < visitedNodesInOrder.length; i++){
+            setTimeout(() => {
+                const node = visitedNodesInOrder[i];
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'bg-pink-800 node'
+            }, 10 * i);
+        }
+        
     }
 
 
     return(
         <div className="m-24 select-none">
-            <button onClick={refreshGrid} className="p-2 bg-green-500 rounded text-white m-4">Visualize Algorithm</button>
+            <button onClick={visualizeDijkstra} className="p-2 bg-green-500 rounded text-white m-4">Visualize Algorithm</button>
             <button onClick={refreshGrid} className="p-2 bg-green-500 rounded text-white m-4">Refresh</button>
             {grid.map((row, rowIdx) => {
                 return <div key={rowIdx} className="font-none">
@@ -85,6 +122,7 @@ export default function Grid(){
                                 key={nodeIdx}
                                 isStart={isStart}
                                 isFinish={isFinish}></Node>
+
                         );
                     })}
                 </div>
