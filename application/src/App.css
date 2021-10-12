@@ -7,6 +7,17 @@
   pointer-events: none;
 }
 
+.node {
+    width: 25px;
+    height: 25px;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+}
+.font-none {
+    font-size: 0;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
