@@ -46,31 +46,49 @@ export default function Grid(){
 
     }
 
+
+    function animateStartNodeMove(row, col){
+            setSTARTNODEROW(row);
+            setSTARTNODECOL(col);
+            const newGrid = generateGrid();
+            setGrid(newGrid);
+    }
+    
+    function animateFinishNodeMove(row, col){
+            setFINISHNODEROW(row);
+            setFINISHNODECOL(col);
+            const newGrid = generateGrid();
+            setGrid(newGrid);
+    }
+
     function setFinishNode(grid, row, col){
         const newGrid = grid.slice();
         const node = newGrid[row][col];
-        const oldNode = newGrid[FINISH_NODE_ROW][FINISH_NODE_COL];
-        const oldFinishNode = {
-            ...oldNode,
-            isFinish: false,
-        };
-        setFINISHNODEROW(row);
-        setFINISHNODECOL(col);
         const newFinishNode = {
             ...node,
             isFinish: true,
         };
-
-        newGrid[FINISH_NODE_ROW][FINISH_NODE_COL] = oldFinishNode;
         newGrid[row][col] = newFinishNode;
-        return newGrid;
-
+        setGrid(newGrid);
     }
 
-    
+    {/* function newGridToggleWall(grid, row, col){ */}
+    {/*     const newGrid = grid.slice(); */}
+    {/*     const node = newGrid[row][col]; */}
+    {/*     const newNode = { */}
+    {/*         ...node, */}
+    {/*         isWall: !node.isWall, */}
+    {/*     }; */}
+    {/*     newGrid[row][col] = newNode; */}
+    {/*     return newGrid; */}
+    {/* } */}
+
     function setStartNode(grid, row, col){
+        {/* setSTARTNODEROW(row); */}
+        {/* setSTARTNODECOL(col); */}
         const newGrid = grid.slice();
         const node = newGrid[row][col];
+        //new ------------------------
         const oldStart = newGrid[START_NODE_ROW][START_NODE_COL];
         const oldStartNode = {
             ...oldStart,
@@ -78,15 +96,21 @@ export default function Grid(){
         };
         setSTARTNODEROW(row);
         setSTARTNODECOL(col);
+        //end new
         const newStartNode = {
             ...node,
             isStart: true,
         };
-
-        newGrid[START_NODE_ROW][START_NODE_COL] = oldStartNode;
         newGrid[row][col] = newStartNode;
-        return newGrid;
 
+
+        //new ------------------------
+        newGrid[START_NODE_ROW][START_NODE_COL] = oldStartNode;
+        return newGrid;
+        //end new
+
+        //old
+        {/* setGrid(newGrid); */}
     }
 
     function handleMouseEnter(row, col){
@@ -100,8 +124,7 @@ export default function Grid(){
             {/* animateStartNodeMove(row, col); */}
         }
         else if(movingFinish){
-            const newGrid = setFinishNode(grid, row, col);
-            setGrid(newGrid);
+           animateFinishNodeMove(row, col); 
         }
         else {
             if(!isMousePressed) return;
@@ -136,7 +159,6 @@ export default function Grid(){
     }
 
     function handleMouseUp(){
-       setIsMousePressed(false);  
         if(movingStart) {
             console.log(START_NODE_ROW);
             setStartNode(grid, START_NODE_ROW, START_NODE_COL);
@@ -146,6 +168,7 @@ export default function Grid(){
             setMovingFinish(false);
             setFinishNode(grid, FINISH_NODE_ROW, FINISH_NODE_COL);
         }
+       setIsMousePressed(false);  
     }
 
     function animateShortestPath(nodesInShortestOrder){

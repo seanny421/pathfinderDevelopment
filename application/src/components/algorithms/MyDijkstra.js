@@ -1,18 +1,13 @@
-export function Dijkstra(grid, startNode, finishNode){
+export function MyDijkstra(grid, startNode, finishNode){
+    const visitedNodesInOrder = []; 
+    startNode.distance = 0;
+    const unvisitedNodes = getNodes(grid);
+    while(!!unvisitedNodes.length){
+         sortNodesByDistance(unvisitedNodes);
+         const closestNode = unvisitedNodes.shift();
 
-   const visitedNodesInOrder = [];  
-   startNode.distance = 0;
-   const unvisitedNodes = getAllNodes(grid);
-   while(!!unvisitedNodes.length){
-        //sort all nodes by distance (shortest 1st in list) then use
-        //shift to remove first element and return it (closestNode = sortedNodes[0])
-       sortNodesByDistance(unvisitedNodes); 
-       const closestNode = unvisitedNodes.shift();
-
-        //skip if its a wall
-       if(closestNode.isWall)
+         if(closestNode.isWall)
             continue;
-
 
         if(closestNode.distance === Infinity) return visitedNodesInOrder;
         closestNode.isVisited = true;
@@ -20,11 +15,8 @@ export function Dijkstra(grid, startNode, finishNode){
 
         if(closestNode === finishNode) return visitedNodesInOrder;
         updateUnvisitedNodes(closestNode, grid);
-   }
-
-
-
-
+        
+    }
 }
 
 function updateUnvisitedNodes(closestNode, grid){
@@ -48,20 +40,28 @@ function getUnvisitedNeighbours(node, grid){
     return neighbours.filter(neighbour => !neighbour.isVisited);
 }
 
+function getNodes(grid){
+    const nodes = [];
+    for(const row in grid){
+        for(const node in row){
+            nodes.push(node);
+        }
+    }
+    {/* grid.forEach(row => { */}
+    {/*    row.forEach(node => { */}
+    {/*         nodes.push(node); */}
+    {/*    }); */}
+    {/* }); */}
+   return nodes; 
+}
+
+
 function sortNodesByDistance(unvisitedNodes){
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
 
-function getAllNodes(grid){
-    const nodes = [];
-    grid.forEach(row => {
-        row.forEach(node => {
-           nodes.push(node); 
-        });
-    });
-    return nodes;
-}
 
+//will only work after algorithm has been run at least once
 export function getNodesInShortestOrder(finishNode){
     const nodesInShortestOrder = [];
     let currentNode = finishNode;

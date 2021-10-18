@@ -13,10 +13,32 @@
     outline: 1px solid rgb(175, 216, 248);
     display: inline-block;
 }
-.font-none {
-    font-size: 0;
+
+.node-visited {
+    background-color: yellow;
+    animation-duration: 1s;
+    animation-name: slidein;
 }
 
+@keyframes slidein {
+    from {
+        background-color: orange;
+    }
+    to {
+        background-color: yellow;
+    }
+}
+
+.shortest-path {
+    background-color: brown;
+}
+
+
+
+
+.font-none{
+    font-size: 0;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
