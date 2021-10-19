@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Node({row, col, isStart, isFinish, isWall, onMouseUp, onMouseEnter, onMouseDown}){
+export default function Node({row, col, isStart, isFinish, isWall, isCorner, onMouseUp, onMouseEnter, onMouseDown}){
     return(
         <div 
             id={`node-${row}-${col}`}
@@ -10,6 +10,7 @@ export default function Node({row, col, isStart, isFinish, isWall, onMouseUp, on
             className={`node 
             ${isStart ? "bg-green-700": ""} 
             ${isFinish ? "bg-red-800": ""} 
+            ${isCorner ? "rounded-xlg" : ""}
             ${isWall ? "bg-blue-800": ""}`}>
         </div>
     );

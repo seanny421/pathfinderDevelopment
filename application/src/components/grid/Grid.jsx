@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import Node from "../node/Node.jsx";
 import { Dijkstra, getNodesInShortestOrder } from "../algorithms/Dijkstra.js";
+
+import Menu from "../menu/Menu.jsx";
 {/* import { MyDijkstra, getNodesInShortestOrder } from "../algorithms/MyDijkstra.js"; */}
 
 export default function Grid(){
@@ -187,7 +189,9 @@ export default function Grid(){
 
 
     return(
-        <div className="m-24 select-none">
+        <section id="app">
+        <Menu/>
+        <div className="m-22 select-none 2xl:m-24">
             <button onClick={visualiseDijkstras} className="bg-green-800 rounded p-2 text-white m-4">Visualize Algorithm</button>
             {grid.map((row, rowIdx) => {
                return <div key={rowIdx} className="font-none"> 
@@ -211,5 +215,6 @@ export default function Grid(){
                 </div>
             })} 
         </div>
+    </section>
     );
 }
