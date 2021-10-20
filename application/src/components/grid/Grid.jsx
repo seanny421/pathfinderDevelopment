@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import Node from "../node/Node.jsx";
 import { Dijkstra, getNodesInShortestOrder } from "../algorithms/Dijkstra.js";
-
 import Menu from "../menu/Menu.jsx";
 {/* import { MyDijkstra, getNodesInShortestOrder } from "../algorithms/MyDijkstra.js"; */}
 
@@ -12,6 +11,8 @@ export default function Grid(){
     const [START_NODE_COL, setSTARTNODECOL] = useState(15);
     const [FINISH_NODE_ROW, setFINISHNODEROW] = useState(10);
     const [FINISH_NODE_COL, setFINISHNODECOL] = useState(35);
+    const [algorithms, setAlgorithms] = useState(["Dijkstras"]);
+    const [currAlgorithm, setCurrentAlgorithm] = useState("");
 
     const [movingStart, setMovingStart] = useState(false);
     const [movingFinish, setMovingFinish] = useState(false);
@@ -150,10 +151,11 @@ export default function Grid(){
         }
     }
 
+
     function animateShortestPath(nodesInShortestOrder){
         for(let i = 0; i < nodesInShortestOrder.length; i++){
+            const node = nodesInShortestOrder[i];
             setTimeout(() => {
-                const node = nodesInShortestOrder[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className="node shortest-path";
             }, 50 * i);
         }
@@ -178,21 +180,46 @@ export default function Grid(){
     }
 
     function visualiseDijkstras(){
-        const startNode = grid[START_NODE_ROW][START_NODE_COL];
-        const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-        const visitedNodesInOrder = Dijkstra(grid, startNode, finishNode);
-        const nodesInShortestOrder = getNodesInShortestOrder(finishNode);
+        if(currAlgorithm === "Dijkstras"){
+            const startNode = grid[START_NODE_ROW][START_NODE_COL];
+            const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+            const visitedNodesInOrder = Dijkstra(grid, startNode, finishNode);
+            const nodesInShortestOrder = getNodesInShortestOrder(finishNode);
 
-        animateDijkstras(visitedNodesInOrder, nodesInShortestOrder);
+            animateDijkstras(visitedNodesInOrder, nodesInShortestOrder);
+
+        }
     }
 
 
 
     return(
-        <section id="app">
-        <Menu/>
+       <section id="app"> 
+        <Menu setCurrentAlgorithm={setCurrentAlgorithm} visualiseDijkstras={visualiseDijkstras} algorithms={algorithms}/>
+
+
+        {/* --------------------------------- key ------------------------------------------------------------ */}
+        <div className="flex flex-row justify-center mt-4">
+            <div className="flex pt-4">
+                <h1 className="mx-6">Start Node:</h1><Node isStart={true}/>
+            </div>
+            <div className="flex pt-4">
+                <h1 className="mx-6">Finish Node:</h1><Node isFinish={true}/>
+            </div>
+            <div className="flex pt-4">
+                <h1 className="mx-6">Wall Node:</h1><Node isWall={true}/>
+            </div>
+            <div className="flex pt-4">
+                <h1 className="mx-6">Shorted Path:</h1><div className="node shortest-path"></div>
+            </div>
+        </div>
+        {/* --------------------------------- key ------------------------------------------------------------ */}
+
+
+
+
         <div className="m-22 select-none 2xl:m-24">
-            <button onClick={visualiseDijkstras} className="bg-green-800 rounded p-2 text-white m-4">Visualize Algorithm</button>
+            {/* <button onClick={visualiseDijkstras} className="bg-green-800 rounded p-2 text-white m-4">Visualize Algorithm</button> */}
             {grid.map((row, rowIdx) => {
                return <div key={rowIdx} className="font-none"> 
                    {row.map((node, nodeIdx) => {

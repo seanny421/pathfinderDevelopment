@@ -10,27 +10,32 @@
 .node {
     width: 25px;
     height: 25px;
-    outline: 1px solid rgb(175, 216, 248);
+    /* outline: 1px solid rgb(175, 216, 248); */
+    outline: 1px solid rgba(6, 95, 70, 0.5);
     display: inline-block;
 }
 
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
 .node-visited {
-    background-color: yellow;
+    background-color: rgba(249,250,222);
     animation-duration: 1s;
     animation-name: slidein;
 }
 
 @keyframes slidein {
     from {
-        background-color: orange;
+        background-color: rgba(218, 78, 2);
     }
     to {
-        background-color: yellow;
+        background-color:rgba(229,236,222);
     }
 }
 
 .shortest-path {
-    background-color: brown;
+    background-color: #da4e02;
 }
 
 

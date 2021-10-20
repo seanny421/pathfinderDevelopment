@@ -1,10 +1,17 @@
 import './App.css';
+import { useState } from 'react';
+import { BrowserRouter} from 'react-router-dom';
 import Grid from "./components/grid/Grid.jsx";
 
 function App() {
+    const [algorithmSelected, setAlgorithm] = useState("Dijkstras");
+
+
   return (
     <div className="App">
-        <Grid/>
+        <BrowserRouter>
+            <Grid/>
+        </BrowserRouter>
     </div>
   );
 }
